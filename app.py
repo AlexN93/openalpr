@@ -7,8 +7,8 @@ if not alpr.is_loaded():
     print("Error loading OpenALPR")
     sys.exit(1)
 
-# cap = cv2.VideoCapture("numPlates2.avi")
 cap = cv2.VideoCapture("numPlates.mpg")
+# cap = cv2.VideoCapture("numPlates2.avi")
 
 while True:
     ret, frame = cap.read()
