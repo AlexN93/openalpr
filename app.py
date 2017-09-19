@@ -7,11 +7,12 @@ if not alpr.is_loaded():
     print("Error loading OpenALPR")
     sys.exit(1)
 
-cap = cv2.VideoCapture("numPlates.mpg")
-# cap = cv2.VideoCapture("numPlates2.avi")
+# cap = cv2.VideoCapture("numPlates.mpg")
+cap = cv2.VideoCapture("numPlates2.avi")
 
 while True:
     ret, frame = cap.read()
+    threshold = 90
 
     if ret:
         cv2.imshow('frame', frame)
@@ -26,14 +27,17 @@ while True:
 
         for plate in results['results']:
             i += 1
-            print("Plate #%d" % i)
-            print("   %12s %12s" % ("Plate", "Confidence"))
+            # print("Plate #%d" % i)
+            # print("   %12s %12s" % ("Plate", "Confidence"))
             for candidate in plate['candidates']:
                 prefix = "-"
                 if candidate['matches_template']:
                     prefix = "*"
 
-                print("  %s %12s%12f" % (prefix, candidate['plate'], candidate['confidence']))
+                if candidate['confidence'] > threshold:
+                    print("Plate #%d" % i)
+                    print("   %12s %12s" % ("Plate", "Confidence"))
+                    print("  %s %12s%12f" % (prefix, candidate['plate'], candidate['confidence']))
     else:
         break
 
